@@ -12,6 +12,8 @@ from pprint import pprint
 import pandas as pd
 from pymongo import MongoClient
 
+from lesson_3.task_1 import hh_bs_parse
+
 URL = 'https://hh.ru/search/vacancy'
 AREA = 1844
 text = 'python'
@@ -45,8 +47,6 @@ def add_vacancy(vacancies, vacancies_db):
             vacancies_db.insert_one(vacancy)
             print(f'Новая вакансия "{vacancy["vacancy_name"]}" добавлена')
             new_vacancy_count += 1
-        else:
-            print(f'Вакансия "{vacancy["vacancy_name"]}" уже добавлена')
     vacancies_in_db = vacancies_db.find()
     pprint(f'Добавлено {new_vacancy_count} записей. Количество вакансий {len(list(vacancies_in_db))}')
 
@@ -66,7 +66,8 @@ def search_vacancy_by_salary(vacancies_db):
 
 
 if __name__ == "__main__":
-    # add_vacancy(vacancies=hh_bs_parse(url=URL, params=params, headers=headers), vacancies_db=db_vacancies)
-    ds = (search_vacancy_by_salary(db_vacancies))
-    df = pd.DataFrame(list(ds))
-    df.to_excel('search.xlsx')
+
+    add_vacancy(vacancies=hh_bs_parse(url=URL, params=params, headers=headers), vacancies_db=db_vacancies)
+    # ds = (search_vacancy_by_salary(db_vacancies))
+    # df = pd.DataFrame(list(ds))
+    # df.to_excel('search.xlsx')

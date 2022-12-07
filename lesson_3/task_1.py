@@ -11,17 +11,20 @@
 через pandas, сохранить в json, либо csv.
 """
 from pprint import pprint
-import pandas as pd
 
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
 
 URL = 'https://hh.ru/search/vacancy'
+AREA = 1844
+text = 'python'
+items_on_page = 20
 
 params = {
-    'area': 1844,
-    'text': 'python',
-    'items_on_page': 20,
+    'area': AREA,
+    'text': text,
+    'items_on_page': items_on_page,
     'page': 0,
 }
 
@@ -90,7 +93,8 @@ def hh_bs_parse(url, params, headers):
     return vacancies_list
 
 
-ds = hh_bs_parse(URL, params=params, headers=headers)
-df = pd.DataFrame(ds)
-df.to_excel('vacancies.xlsx')
-print(df)
+if __name__ == "__main__":
+    ds = hh_bs_parse(URL, params=params, headers=headers)
+    df = pd.DataFrame(ds)
+    df.to_excel('vacancies.xlsx')
+    print(df)
